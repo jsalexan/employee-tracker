@@ -1,0 +1,22 @@
+{
+  "name": "employee-tracker",
+  "version": "1.0.0",
+  "description": "App to track employees",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsalexan/employee-tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jsalexan/employee-tracker/issues"
+  },
+  "homepage": "https://github.com/jsalexan/employee-tracker#readme",
+  "dependencies": {
+    "inquirer": "^9.1.4"
+  }
+}
