@@ -99,6 +99,10 @@ function addDepartment() {
 };
 
     function addRole() {
+        db.query(`SELECT * FROM department;`, (err, res) => {
+            if (err) throw err;
+            let allDepartments = res.map(department => ({name: department.department_name, value: department.id }));
+
         inquirer.prompt ([ 
             {
             type: "input",
@@ -113,13 +117,13 @@ function addDepartment() {
             {
             type: "rawlist",
             name: "deptID",
-            message: "Please enter the Department ID number for this role.",
-            choices: ['Marketing(1)', 'Development(2)', 'Production(3)', 'Artisic(4)', 'Education(5)', "Finance(6)"]
-            }
+            message: "Please enter the Department ID number for this role.", 
+            choices: allDepartments         
+            },
         ])
         
         .then((response) => {
-            db.query('INSERT INTO employee_role SET ? ;'),
+            db.query(`INSERT INTO employee_role SET ?`,
             {
                 title: response.roleName,
                 salary: response.salary,
@@ -127,10 +131,11 @@ function addDepartment() {
             },
             function (err, results) {
                 if (err) throw err;
-                console.log('You have successfully added the role of ${response.title} to the database!');
+                console.log(`You have successfully added the role of ${response.title} to the database!`);
                 init();
-        }
+            })
         })
-    };
+    })
+};
 
 init();
