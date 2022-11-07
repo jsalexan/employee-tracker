@@ -6,10 +6,10 @@ const db = mysql.createConnection(
     {
       host: 'localhost',
       user: 'root',
-      password: '',
-      database: 'employee_db'
+      password: 'RatDogCatWeasel1!',
+      responsebase: 'employee_db'
     },
-    console.log(`Connected to the employee_db database.`)
+    console.log(`Connected to the employee_db responsebase.`)
   );
 
   function init() {
@@ -54,28 +54,84 @@ const db = mysql.createConnection(
 
 
 function viewDepartments() {
-    db.query('SELECT * FROM departments ORDER BY department_id DESC;', function (err, results) {
-        // TODO: Does this go in back ticks or quotes?
+    db.query(`SELECT * FROM department ORDER BY department_name DESC;`, function (err, results) {
         if (err) throw err;
-        console.log(results);
-        // TODO: What does console.table add to this, if anything? Research...
+        console.table(results);
         init();
       });
 };
 
 function viewRoles() {
-    db.query('SELECT * FROM employee_role ORDER BY id DESC;', function (err, results) {
+    db.query(`SELECT * FROM employee_role ORDER BY title DESC;`, function (err, results) {
         if (err) throw err;
-        console.log(results);
+        console.table(results);
         init();
     });
 };
 
 function viewEmployees() {
-    db.query('SELECT * FROM employee ORDER BY id DESC;', function (err, results) {
+    db.query(`SELECT * FROM employee ORDER BY id DESC;`, function (err, results) {
         if (err) throw err;
-        console.log(results);
+        console.table(results);
         init();
     });
 };
 
+function addDepartment() {
+    inquirer.prompt ([ 
+        {
+        type: "input",
+        name: "addDept",
+        message: "What is the name of the Department you would like to add?",
+        }
+    ])
+    .then((response) => {
+        db.query(`INSERT INTO department SET ?;`,
+        {
+            department_name: response.addDept
+        },
+        function (err, results) {
+            if (err) throw err;
+            console.log('You have successfully added the Department ${response.addDept} to the responsebase!');
+            init();
+    })
+    })
+};
+
+    function addRole() {
+         
+        inquirer
+        .prompt ([ 
+            {
+            type: "input",
+            name: "roleName",
+            message: "What is the job title you would like to add?",
+            }, 
+            {
+            type: "number",
+            name: "salary",
+            message: "What is the salary for this role? (Please don't include commas.)"
+            },
+            {
+            type: "input",
+            name: "deptID",
+            message: "Please enter the Department ID number for this role. (Marketing(1), Development(2), Production(3), Artistic(4), Education(5), Finanace(6)"
+            }
+        ])
+       
+        .then((response) => {
+            db.query('INSERT INTO employee_role SET ?;'),
+            {
+                title: response.roleName,
+                salary: response.salary,
+                department_id: response.deptID,
+            },
+            function (err, results) {
+                if (err) throw err;
+                console.log('You have successfully added the new role to the database!');
+                init();
+        }
+        })
+    };
+
+init();
