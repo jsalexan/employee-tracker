@@ -7,9 +7,9 @@ const db = mysql.createConnection(
       host: 'localhost',
       user: 'root',
       password: 'RatDogCatWeasel1!',
-      responsebase: 'employee_db'
+      database: 'employee_db'
     },
-    console.log(`Connected to the employee_db responsebase.`)
+    console.log(`Connected to the employee_db database.`)
   );
 
   function init() {
@@ -99,9 +99,7 @@ function addDepartment() {
 };
 
     function addRole() {
-         
-        inquirer
-        .prompt ([ 
+        inquirer.prompt ([ 
             {
             type: "input",
             name: "roleName",
@@ -113,14 +111,15 @@ function addDepartment() {
             message: "What is the salary for this role? (Please don't include commas.)"
             },
             {
-            type: "input",
+            type: "rawlist",
             name: "deptID",
-            message: "Please enter the Department ID number for this role. (Marketing(1), Development(2), Production(3), Artistic(4), Education(5), Finanace(6)"
+            message: "Please enter the Department ID number for this role.",
+            choices: ['Marketing(1)', 'Development(2)', 'Production(3)', 'Artisic(4)', 'Education(5)', "Finance(6)"]
             }
         ])
-       
+        
         .then((response) => {
-            db.query('INSERT INTO employee_role SET ?;'),
+            db.query('INSERT INTO employee_role SET ? ;'),
             {
                 title: response.roleName,
                 salary: response.salary,
@@ -128,7 +127,7 @@ function addDepartment() {
             },
             function (err, results) {
                 if (err) throw err;
-                console.log('You have successfully added the new role to the database!');
+                console.log('You have successfully added the role of ${response.title} to the database!');
                 init();
         }
         })
