@@ -17,8 +17,8 @@ const db = mysql.createConnection(
         {
             type: "rawlist",
             name: "menu",
-            message: "What would you like to do?",
-            choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee role"]
+            message: "Welcome to Employee Tracker! What would you like to do?",
+            choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee role", "Exit"]
         }
     ])
 
@@ -45,9 +45,37 @@ const db = mysql.createConnection(
             case "Update an employee role":
                 updateRole();
                 break;
-            // default:
-                // xxxxxxx(); ADD DEFAULT?
-    }
-})
-}; 
+            case "Exit":
+                exit();  
+                // TODO: Decide what this will be
+        }
+    })
+  }; 
+
+
+function viewDepartments() {
+    db.query('SELECT * FROM departments ORDER BY department_id DESC;', function (err, results) {
+        // TODO: Does this go in back ticks or quotes?
+        if (err) throw err;
+        console.log(results);
+        // TODO: What does console.table add to this, if anything? Research...
+        init();
+      });
+};
+
+function viewRoles() {
+    db.query('SELECT * FROM employee_role ORDER BY id DESC;', function (err, results) {
+        if (err) throw err;
+        console.log(results);
+        init();
+    });
+};
+
+function viewEmployees() {
+    db.query('SELECT * FROM employee ORDER BY id DESC;', function (err, results) {
+        if (err) throw err;
+        console.log(results);
+        init();
+    });
+};
 
