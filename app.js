@@ -54,7 +54,7 @@ const db = mysql.createConnection(
 
 
 function viewDepartments() {
-    db.query(`SELECT * FROM department ORDER BY department_name DESC;`, function (err, results) {
+    db.query(`SELECT * FROM department ORDER BY department.id ASC;`, function (err, results) {
         if (err) throw err;
         console.table(results);
         init();
@@ -62,7 +62,7 @@ function viewDepartments() {
 };
 
 function viewRoles() {
-    db.query(`SELECT * FROM employee_role ORDER BY title DESC;`, function (err, results) {
+    db.query(`SELECT * FROM employee_role ORDER BY employee_role.id ASC;`, function (err, results) {
         if (err) throw err;
         console.table(results);
         init();
@@ -70,7 +70,9 @@ function viewRoles() {
 };
 
 function viewEmployees() {
-    db.query(`SELECT * FROM employee ORDER BY id DESC;`, function (err, results) {
+    const employees = `SELECT employee.first_name AS FirstName, employee.last_name AS LastName, employee_role.title AS Role, department.department_name AS Department, CONCAT(e.first_name, ' ' ,e.last_name) AS Manager FROM employee INNER JOIN employee_role ON employee_role.id = employee.role_id INNER JOIN department ON department.id = employee_role.department_id LEFT JOIN employee e on employee.manager_id = e.id;`
+
+    db.query(employees, function (err, results) {
         if (err) throw err;
         console.table(results);
         init();
