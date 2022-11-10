@@ -2,6 +2,7 @@ const inquirer = require("inquirer");
 const mysql = require('mysql2');
 const { rawListeners, allowedNodeEnvironmentFlags } = require("process");
 
+// Create connection to database and greeting
 const db = mysql.createConnection(
     {
       host: 'localhost',
@@ -15,10 +16,10 @@ const db = mysql.createConnection(
     console.log(`Welcome to Employee Tracker!`),
     console.log("-----------------------------"),
     console.log(" "),
-    console.log(" "),
-  
+    console.log(" "), 
   );
 
+    // Function to reveal the main menu. Also used to return to the menu after you've viewed your selection.
   function init() {
     inquirer.prompt ([ 
         {
@@ -64,7 +65,7 @@ const db = mysql.createConnection(
     })
   }; 
 
-
+// View all the departments in the database
 function viewDepartments() {
     db.query(`SELECT * FROM department ORDER BY department.id ASC;`, function (err, results) {
         if (err) throw err;
@@ -73,16 +74,19 @@ function viewDepartments() {
       });
 };
 
+// View all the roles in the database, along with salary
 function viewRoles() {
-    db.query(`SELECT * FROM employee_role ORDER BY employee_role.id ASC;`, function (err, results) {
+    const roles = `SELECT employee_role.title AS Title, employee_role.salary AS Salary, department.department_name AS Department FROM employee_role JOIN department ON employee_role.department_id = department.id;`
+    db.query(roles, function (err, results) {
         if (err) throw err;
         console.table(results);
         init();
     });
 };
 
+// View all the employees in the database, along with their managers and titles.
 function viewEmployees() {
-    const employees = `SELECT employee.first_name AS FirstName, employee.last_name AS LastName, employee_role.title AS Role, department.department_name AS Department, CONCAT(e.first_name, ' ' ,e.last_name) AS Manager FROM employee INNER JOIN employee_role ON employee_role.id = employee.role_id INNER JOIN department ON department.id = employee_role.department_id LEFT JOIN employee e on employee.manager_id = e.id;`
+    const employees = `SELECT employee.first_name AS FirstName, employee.last_name AS LastName, employee_role.title AS Title, department.department_name AS Department, CONCAT(e.first_name, ' ' ,e.last_name) AS Manager FROM employee INNER JOIN employee_role ON employee_role.id = employee.role_id INNER JOIN department ON department.id = employee_role.department_id LEFT JOIN employee e on employee.manager_id = e.id;`
 
     db.query(employees, function (err, results) {
         if (err) throw err;
@@ -91,6 +95,7 @@ function viewEmployees() {
     });
 };
 
+// Add a new department to the database
 function addDepartment() {
     inquirer.prompt ([ 
         {
@@ -106,12 +111,13 @@ function addDepartment() {
         },
         function (err, results) {
             if (err) throw err;
-            console.log('You have successfully added the Department ${response.addDept} to the responsebase!');
+            console.log('You have successfully added a Department to the database!');
             init();
     })
     })
 };
 
+// Add a new role to the database
     function addRole() {
         db.query(`SELECT * FROM department;`, (err, res) => {
             if (err) throw err;
@@ -145,13 +151,14 @@ function addDepartment() {
             },
             function (err, results) {
                 if (err) throw err;
-                console.log(`You have successfully added the role of ${response.title} to the database!`);
+                console.log(`You have successfully added this role to the database!`);
                 init();
             })
         })
     })
 };
 
+// Add a new employee to the database
 function addEmployee() {
     db.query(`SELECT * FROM employee_role;`, (err, res) => {
         if (err) throw err;
@@ -205,6 +212,7 @@ function addEmployee() {
 })
 };
 
+// Update the role of an employee in the database
 function updateRole() {
     db.query(`SELECT * FROM employee_role;`, (err, res) => {
         if (err) throw err;
@@ -244,4 +252,5 @@ function updateRole() {
     })
     };
 
+// Initialize the application
 init();
