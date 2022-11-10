@@ -9,7 +9,14 @@ const db = mysql.createConnection(
       password: 'RatDogCatWeasel1!',
       database: 'employee_db'
     },
-    console.log(`Connected to the employee_db database.`)
+    console.log(" "),
+    console.log(" "),
+    console.log("-----------------------------"),
+    console.log(`Welcome to Employee Tracker!`),
+    console.log("-----------------------------"),
+    console.log(" "),
+    console.log(" "),
+  
   );
 
   function init() {
@@ -17,7 +24,7 @@ const db = mysql.createConnection(
         {
             type: "rawlist",
             name: "menu",
-            message: "Welcome to Employee Tracker! What would you like to do?",
+            message: "What would you like to do?",
             choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee role", "Exit"]
         }
     ])
@@ -46,8 +53,13 @@ const db = mysql.createConnection(
                 updateRole();
                 break;
             case "Exit":
-                exit();  
-                // TODO: Decide what this will be
+                console.log(" ");
+                console.log(" ");
+                console.log("-----------------------------------------------");
+                console.log("Thank you for using Employee Tracker! Goodbye!")  
+                console.log("-----------------------------------------------");
+                console.log(" ");
+                console.log(" ");       
         }
     })
   }; 
@@ -231,13 +243,5 @@ function updateRole() {
     })
     })
     };
-
-
-
-
-
-
-
-
 
 init();

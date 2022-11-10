@@ -12,6 +12,3 @@
 
 // Update Employee Role: Prompts - Select employee to update, new role, added to database.
 
-UPDATE produce
-SET name = "strawberry"
-WHERE id = 1;
