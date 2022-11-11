@@ -215,47 +215,42 @@ function addEmployee() {
 // Update the role of an employee in the database
 function updateRole() {
     db.query(`SELECT * FROM employee_role;`, (err, res) => {
-        if (err) 
-            throw err;
-        
-        let allRoles = res.map(employee_role => ({name: employee_role.title, value: employee_role.id}));
+        if (err) throw err;
+        let allRoles = res.map(employee_role => ({name: employee_role.title, value: employee_role.id }));
 
-        db.query(`SELECT * FROM employee;`, (err, res) => {
-            if (err) 
-                throw err;
-            
-            let allEmployees = res.map(employee => ({
-                name: employee.first_name + ' ' + employee.last_name,
-                value: employee.id
-            }));
+    db.query(`SELECT * FROM employee;`, (err, res) => {
+        if (err) throw err;
+        let allEmployees = res.map(employee => ({name: employee.first_name + ' ' + employee.last_name, value: employee.id }));
 
-            inquirer.prompt([
-                {
-                    type: "rawlist",
-                    name: "employees",
-                    message: "Which employee would you like to update?",
-                    choices: allEmployees
-                }, {
-                    type: "rawlist",
-                    name: "roles",
-                    message: "Please select the new job title for this employee.",
-                    choices: allRoles
-                },
-            ]).then((response) => {
-                db.query(`UPDATE employee SET ? WHERE ?`, {
-                    role_id: response.roles,
-                    id: response.employees
-                }, function (err, results) {
-                    if (err) 
-                        throw err;
-                    
-                    console.log(`You have successfully updated your new employee in the database!`);
-                    init();
-                })
+        inquirer.prompt ([ 
+            {
+            type: "rawlist",
+            name: "employees",
+            message: "Which employee would you like to update?", 
+            choices: allEmployees         
+            },
+            {
+            type: "rawlist",
+            name: "roles",
+            message: "Please select the new job title for this employee.", 
+            choices: allRoles        
+            },
+        ])
+        .then((response) => {
+            db.query(`UPDATE employee SET role_id = ? WHERE id = ?;`,
+            [
+                response.roles,
+                response.employees,             
+            ],
+            function (err, results) {
+                if (err) throw err;
+                console.log(`You have successfully updated your employee role in the database!`);
+                init();
             })
         })
     })
-};
+    })
+    };
 
 // Initialize the application
 init();
