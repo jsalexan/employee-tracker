@@ -31,7 +31,8 @@
   <br><br>
 
   ## [Installation](#table-of-contents)
-  There is no website for this application.
+  There is no website for this application, but you can view a video walk-through on 
+  [YouTube.](https://www.youtube.com/watch?v=AkSS0M2b5s8)
   <br><br>
   The repository is on GitHub: [GitHub repository for Employee Tracker.](https://github.com/jsalexan/employee-tracker) <br>
   There you will find following file types: 

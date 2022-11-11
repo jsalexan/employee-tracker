@@ -21,8 +21,8 @@ VALUES ("Artistic Director", 250000, 4),
 ("Events Manager", 50000, 1);
 
 INSERT INTO employee(first_name, last_name, role_id, manager_id)
-VALUES ("Barbara", "Collins", 2, NULL),
-("Emily", "Munn", 1, NULL),
+VALUES ("Emily", "Munn", 1, NULL),
+("Barbara", "Collins", 2, NULL),
 ("Roz", "Bluth", 3, NULL),
 ("David", "Roth", 4, NULL),
 ("Chris", "Hay", 5, NULL),
