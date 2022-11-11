@@ -55,7 +55,7 @@
   <br>
   
   ## [Credits](#table-of-contents) 
-  I am grateful for the help of the Panic Problems study (support) group. I also received very helpful assistance of my tutors Sabrina Hanson and Renee Trevino. Last, I am thankful for the assistance of my UW Full Stack Web Development Bootcamp instructors, teacher assistants, and fellow students.
+  I am grateful for the help of the Panic Problems study (support) group. I also received very helpful assistance of my tutors Sabrina Hanson and Renee Trevino, as well as Sebastian Alvarado with AskBCS. Last, I am thankful for the assistance of my UW Full Stack Web Development Bootcamp instructors, teacher assistants, and fellow students.
   <br><br>
 
   **Third Party References and Tutorials used include:** 
